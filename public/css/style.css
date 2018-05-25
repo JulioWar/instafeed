@@ -1,22 +1,37 @@
 /* ESTILOS GENERALES   */
 html,
 body {
+    background-color: #FAFAFA;
     font-family: 'Barlow', sans-serif;
     margin: 0;
 }
 
 .container {
+    --padding-container: 16px;
     width: 1024px;
     margin: 0 auto;
+    padding-left: var(--padding-container);
+    padding-right: var(--padding-container);
+}
+
+.form-input {
+    border-radius: 3px;
+    border: 1px solid #dddddd;
+    padding: 10px;
 }
 
 
 /* ESTILO DE LA CABECERA*/
 header {
+    padding-top: 20px;
     width: 100%;
     height: 75px;
     background: white; /* blanco */
     border-bottom: 1px solid #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
 }
 
 header .container {
@@ -24,6 +39,135 @@ header .container {
     justify-content: space-between;
 }
 
+header a {
+    text-decoration: none;
+}
+
 header a img {
     height: 35px;
+}
+
+header .logo > img:first-child {
+    --margin-logo: 20px;
+    padding-right: var(--margin-logo);
+    margin-right: calc(var(--margin-logo) - 10px);
+    border-right: 1px solid black;
+}
+
+header .form-input {
+    text-align: center;
+    width: 250px;
+}
+
+header .form-input:focus {
+    text-align: left;
+}
+
+header nav a {
+    margin-right: 10px;
+}
+
+/*
+ ESTILO PARA LA VISTA DE EXPLORAR
+ */
+#explorer {
+    margin-top: 150px;
+}
+
+.grid {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.grid .post {
+    width: 31%;
+    background-position: center center;
+    background-size: cover;
+    background-color: #ddd;
+    position: relative;
+    margin-bottom: 45px;
+}
+
+.grid .post a {
+    /* ESTILO PARA UBICACION */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0, 0.4);
+    opacity: 0;
+    /* ESTILO DEL TEXTO*/
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    /* ESTILO PARA LA FORMA DE VISUALIZACION*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: 300ms all ease-in-out;
+}
+
+.grid .post:hover a {
+    opacity: 1;
+}
+
+.grid .post .likes {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.grid .post img  {
+    width: 16px;
+}
+
+.grid .post:after {
+    content: '';
+    display: block;
+    padding-top: 100%;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1024px) {
+    .container {
+        width: auto;
+    }
+}
+
+/* TABLETS */
+@media (max-width: 768px) {
+    header {
+        height: 66px;
+    }
+
+    header a img {
+        height: 25px;
+    }
+
+    header .logo img:first-child {
+        border-right: none;
+        padding-right: 0;
+    }
+
+    header .logo img:nth-child(2) {
+        display: none;
+    }
+
+    header .form-input {
+        width: 59%;
+    }
+
+    .grid .post {
+        width: 49%;
+    }
+}
+
+/* TELEFONOS CELULARES */
+@media (max-width: 480px) {
+    .grid .post {
+        width: 100%;
+    }
 }
