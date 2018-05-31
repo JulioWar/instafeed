@@ -1,31 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<?php
+include "views/layouts/header.php";
+include "views/layouts/base-footer.php";
 
-<head>
-    <meta charset="utf-8">
-    <title>Instafeed</title>
-    <link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
-    <link rel="stylesheet" href="public/css/style.css">
-</head>
+get_header();
+?>
 
-<body>
-    <header>
-        <div class="container">
-            <a class="logo" href="./">
-                <img src="public/images/instagram-logo.svg" alt="Logo">
-                <img src="public/images/insta.png" alt="Nombre Aplicacion">
-            </a>
-            <input class="form-input" type="search" placeholder="Buscar">
-            <nav>
-                <a href="./">
-                        <img src="public/images/compass.svg" alt="Explorar">
-                    </a>
-                <a href="profile.html">
-                        <img src="public/images/user.svg" alt="Perfil">
-                    </a>
-            </nav>
-        </div>
-    </header>
     <div id="explorer" class="container">
         <h5>Explorar</h5>
 
@@ -74,6 +53,6 @@
             </article>
         </div>
     </div>
-</body>
-
-</html>
+<?php
+    get_base_footer();
+?>

@@ -20,6 +20,52 @@ body {
     padding: 10px;
 }
 
+.btn,
+input[type=submit] {
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+.btn.btn-blue {
+    background-color: #3897f0;
+    color: white;
+}
+.btn-default {
+    color: black;
+}
+.btn-block {
+    display: block;
+}
+
+
+form input {
+    margin-top: 6px;
+    display: block;
+}
+.form-input {
+    --padding-input: 10px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding-top: calc(var(--padding-input) * 1);
+    padding-bottom: calc(var(--padding-input) * 1);
+    padding-left: var(--padding-input);
+    padding-right: var(--padding-input);
+}
+
+.form-input:focus {
+    outline: none;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 25px;
+    background: white;
+}
+
 
 /* ESTILO DE LA CABECERA*/
 header {
