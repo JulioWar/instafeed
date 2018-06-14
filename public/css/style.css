@@ -67,6 +67,40 @@ form input {
 }
 
 
+/* ESTILO PARA MENSAJES DE ALERTA */
+.alert {
+    --color-background: white;
+    --color-border: #ddd;
+    --color: black;
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
+    color: var(--color);
+    margin-top: 16px;
+}
+
+.alert ul,
+.alert p {
+    margin: 0;
+}
+
+.alert ul {
+    list-style: none;
+    padding: 0;
+}
+
+.alert.danger {
+    --color-border: #f5c6cb;
+    --color-background: #f8d7da;
+    --color: #721c24;
+}
+
+.alert.success {
+    --color-border: #c3e6cb;
+    --color-background: #d4edda;
+    --color: #155724;
+}
+
 /* ESTILO DE LA CABECERA*/
 header {
     padding-top: 20px;

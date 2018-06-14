@@ -2,6 +2,8 @@
 include "views/layouts/base-header.php";
 include "views/layouts/base-footer.php";
 
+session_start();
+
 get_base_header(
     '<link rel="stylesheet" href="public/css/outside.css">'
 );
@@ -13,7 +15,7 @@ get_base_header(
             <img src="public/images/insta.png" alt="Instafeed picture">
         </span>
         <p>Registrate para ver fotos y videos de tus amigos.</p>
-        <form  action="" method="post">
+        <form action="app/Controllers/auth/registry.php" method="post">
             <input type="text"
                    name="username"
                    class="form-input"
@@ -22,7 +24,7 @@ get_base_header(
                   name="name"
                   class="form-input"
                   placeholder="Nombre Completo">
-          <input type="email"
+          <input type="text"
                  name="email"
                  class="form-input"
                  placeholder="Correo Electronico">
@@ -32,6 +34,23 @@ get_base_header(
                 placeholder="Contraseña">
          <input type="submit" class="btn btn-blue" value="Registrar">
         </form>
+        <?php if (isset($_SESSION['messages'])): ?>
+        <div class="alert danger">
+            <?php
+                 echo $_SESSION['messages'];
+                 unset($_SESSION['messages']);
+            ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert success">
+            <?php
+                 echo $_SESSION['success'];
+                 unset($_SESSION['success']);
+            ?>
+        </div>
+        <?php endif; ?>
     </div>
 
     <div class="card">
