@@ -1,12 +1,12 @@
 <?php
+include "../../Classes/FlashMessage.php";
+
+$flashMessage = new FlashMessage();
 
 $username = $_POST['username'];
 $name = $_POST['name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
-
-// Iniciamos la Sesion 
-session_start();
 
 // Creando la conexion a la base de datos
 $connection = new mysqli('localhost', 'root', '', 'instafeed');
@@ -22,7 +22,7 @@ if (!empty($username) && !empty($name) && !empty($email) && !empty($password)) {
 
     // Validando si el nombre de usuario tienen espacios
     if (strpos($username, ' '))  {
-        $_SESSION['messages'] = 'El Nombre de Usuario no puede tener espacios';
+        $flashMessage->addError('username', 'El Nombre de Usuario no puede tener espacios');
     } else {
         // Si el nombre de usuario no tiene espacios entonces verificamos si existe en la base de datos
         $result = $connection->query("SELECT * FROM users WHERE username='$username'");
@@ -30,13 +30,13 @@ if (!empty($username) && !empty($name) && !empty($email) && !empty($password)) {
         // Verficamos que la consulta haya retornado algun resultado
         // Si existen mas de un resultado eso quiere decir, que ya existe en la base de datos
         if ($result->num_rows > 0) {
-            $_SESSION['messages'] = "El Nombre de Usuario $username ya existe.";
+            $flashMessage->addError('username', "El Nombre de Usuario $username ya existe.");
         }
     }
 
     // Validando si el correo electronico tiene el formato por medio de una EXPRESION REGULAR
     if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) {
-        $_SESSION['messages'] = 'El Correo debe ser valido.';
+        $flashMessage->addError('email', 'El Correo debe ser valido.');
     } else {
         // Se el correo electronico tiene el formato deseado, entonces procedemos a verificar
         // si existe en la base de datos
@@ -45,7 +45,7 @@ if (!empty($username) && !empty($name) && !empty($email) && !empty($password)) {
         // Verficamos que la consulta haya retornado algun resultado
         // Si existen mas de un resultado eso quiere decir, que ya existe en la base de datos
         if ($result->num_rows > 0) {
-            $_SESSION['messages'] = "El Correo $email ya existe.";
+            $flashMessage->addError('email', "El Correo $email ya existe.");
         }
     }
 
