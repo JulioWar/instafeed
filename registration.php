@@ -46,7 +46,7 @@ get_base_header('<link rel="stylesheet" href="'.base_url('public/css/outside.css
     </div>
 
     <div class="card">
-        <p>¿Tienes una cuenta? <a href="<?= base_url(); ?>auth/login">Entrar</a> </p>
+        <p>¿Tienes una cuenta? <a href="<?= base_url(); ?>/login.php">Entrar</a> </p>
     </div>
 </div>
 
