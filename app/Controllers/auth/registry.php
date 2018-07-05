@@ -1,88 +1,83 @@
 <?php
+include "../../utils/helpers.php";
 include "../../Classes/FlashMessage.php";
 
 $flashMessage = new FlashMessage();
+
+// Creando la Conexion a la Base de Datos
+$connection = new mysqli("localhost", "root", "", "instafeed");
+
+// Verificando erores de conexion a la base de datos
+if ($connection->connect_errno) {
+  echo "Fallo al conectar a MYSQL: (".$connection->connect_errno.") ".
+  $connection->connect_error;
+}
 
 $username = $_POST['username'];
 $name = $_POST['name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// Creando la conexion a la base de datos
-$connection = new mysqli('localhost', 'root', '', 'instafeed');
-
-// Si la conexion falla, mostramos el mensaje correspondiente en pantalla
-if ($connection->connect_errno) {
-    echo "Fallo la conexiona MYSQL ($connection->connect_errno) $connection->connect_error";
-}
-
-
-// Validando informacion
+// Validando los datos
 if (!empty($username) && !empty($name) && !empty($email) && !empty($password)) {
 
-    // Validando si el nombre de usuario tienen espacios
-    if (strpos($username, ' '))  {
-        $flashMessage->addError('username', 'El Nombre de Usuario no puede tener espacios');
-    } else {
-        // Si el nombre de usuario no tiene espacios entonces verificamos si existe en la base de datos
-        $result = $connection->query("SELECT * FROM users WHERE username='$username'");
-
-        // Verficamos que la consulta haya retornado algun resultado
-        // Si existen mas de un resultado eso quiere decir, que ya existe en la base de datos
-        if ($result->num_rows > 0) {
-            $flashMessage->addError('username', "El Nombre de Usuario $username ya existe.");
-        }
-    }
-
-    // Validando si el correo electronico tiene el formato por medio de una EXPRESION REGULAR
-    if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) {
-        $flashMessage->addError('email', 'El Correo debe ser valido.');
-    } else {
-        // Se el correo electronico tiene el formato deseado, entonces procedemos a verificar
-        // si existe en la base de datos
-        $result = $connection->query("SELECT * FROM users WHERE emails='$email'");
-
-        // Verficamos que la consulta haya retornado algun resultado
-        // Si existen mas de un resultado eso quiere decir, que ya existe en la base de datos
-        if ($result->num_rows > 0) {
-            $flashMessage->addError('email', "El Correo $email ya existe.");
-        }
-    }
-
-    // Si el elemento messages del arreglo $_SESSION esta establecido, entonces
-    // redireccionamos al usuario al formulario de registro con el mensaje de error
-    // ya establecido
-    if (isset($_SESSION['messages'])) {
-        header('Location: http://localhost/instafeed/registration.php');
-        exit();
-    }
-
-    // la funcion md5 encripta la contraseña para evitar que sea leida desde la base de datos
-    $password = md5($password);
-
-    // Creamos y ejecutamos la consulta para insertar el nuevo usuario a la base de datos
+  if (strpos($username,' ') !== false) {
+    $flashMessage->addError('username', 'El Nombre de Usuario no puede tener espacios');
+  } else {
     $result = $connection->query(
-        "INSERT INTO users (username, name, email, password) ".
-        "VALUES('$username', '$name', '$email', '$password')"
+      "SELECT * FROM users WHERE username='$username'"
     );
 
-    // Enviamos un mensaje de error si la consulta falla o retornamos un mensaje de exito
-    // en caso contrario.
-    if (!$result) {
-        $_SESSION['messages'] = "Fallo el registro del usuario: ($connection->connect_errno)  $connection->error";
-    } else {
-        $_SESSION['success'] = 'Te has Registrado Exitosamente.';
+    if ($result->num_rows > 0) {
+      $flashMessage->addError('username', 'Este Nombre de usuarios ya ha sido utilizado para otra cuenta.');
     }
+  }
 
-    // Verificando si exite algun mensaje para retornar al usuario
-    if (isset($_SESSION['success']) || isset($_SESSION['messages'])) {
-        header('Location: http://localhost/instafeed/registration.php');
-        exit();
+  // Validando si el Correo es valido
+  if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) {
+    $flashMessage->addError('email', 'El Correo debe ser valido.');
+  } else {
+    $result = $connection->query(
+      "SELECT * FROM users WHERE email='$email'"
+    );
+
+    if ($result->num_rows > 0) {
+      $flashMessage->addError('email', 'Este Correo ya ha sido utilizado para otra cuenta.');
     }
+  }
+
+  if (strlen($password) < 8) {
+    $flashMessage->addError('password', 'La contraseña deber ser por lo menos de 8 caracteres.');
+  }
 
 } else {
-
-    $_SESSION['messages'] = 'Verifique los campos';
-    header('Location: http://localhost/instafeed/registration.php');
-    exit();
+  $flashMessage->setMessage('Verifique que todos los campos esten llenos.');
 }
+
+
+// Retornando mensajes de error si existen
+if ($flashMessage->hasMessage() || $flashMessage->hasErrors()) {
+
+  $flashMessage->setInputs($_POST);
+
+  // Guardando los cambios en la sesion
+  $flashMessage->save();
+  header("Location: ".base_url()."registration.php");
+  exit();
+}
+
+$password = md5($password);
+$result = $connection->query(
+  "INSERT INTO users (username, name, email, password) ".
+  "VALUES('$username', '$name', '$email', '$password')"
+);
+
+if ($result) {
+  $flashMessage->setSuccessMessage('Te has Registrado Exisamente.');
+} else {
+  $flashMessage->setMessage("Falló el registro del usuario: (" . $connection->errno . ") " . $connection->error);
+}
+
+$flashMessage->save();
+header("Location: ".base_url()."registration.php");
+exit();

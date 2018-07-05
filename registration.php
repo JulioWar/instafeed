@@ -1,60 +1,52 @@
 <?php
 include "views/layouts/base-header.php";
 include "views/layouts/base-footer.php";
+include_once "app/Classes/FlashMessage.php";
+include_once "app/utils/helpers.php";
 
-session_start();
+$flashMessage = new FlashMessage();
 
-get_base_header(
-    '<link rel="stylesheet" href="public/css/outside.css">'
-);
+get_base_header('<link rel="stylesheet" href="'.base_url('public/css/outside.css').'">');
 ?>
-
 <div class="container">
     <div class="card">
         <span class="logo">
-            <img src="public/images/insta.png" alt="Instafeed picture">
+            <img src="<?= base_url(); ?>public/images/insta.png" alt="Instafeed picture">
         </span>
-        <p>Registrate para ver fotos y videos de tus amigos.</p>
-        <form action="app/Controllers/auth/registry.php" method="post">
-            <input type="text"
-                   name="username"
-                   class="form-input"
-                   placeholder="Nombre de Usuario">
-           <input type="text"
-                  name="name"
-                  class="form-input"
-                  placeholder="Nombre Completo">
-          <input type="text"
-                 name="email"
-                 class="form-input"
-                 placeholder="Correo Electronico">
-         <input type="password"
-                name="password"
-                class="form-input"
-                placeholder="Contraseña">
-         <input type="submit" class="btn btn-blue" value="Registrar">
+        <p>Regístrate para ver fotos y vídeos de tus amigos.</p>
+        <form action="<?= base_url(); ?>app/Controllers/auth/registry.php" method="POST" novalidate>
+            <input type="text" class="form-input" name="username" value="<?= $flashMessage->getInput('username'); ?>" placeholder="nombre de usuario" required >
+            <input type="text" class="form-input" name="name" value="<?= $flashMessage->getInput('name'); ?>" placeholder="nombre completo" required >
+            <input type="email" class="form-input" name="email"  value="<?= $flashMessage->getInput('email'); ?>" placeholder="correo electronico" required >
+            <input type="password" class="form-input" name="password" placeholder="contraseña" required >
+            <input type="submit" class="btn btn-blue" value="Entrar">
         </form>
-        <?php if (isset($_SESSION['messages'])): ?>
+
+        <?php if ($flashMessage->hasErrors() || $flashMessage->hasMessage()): ?>
         <div class="alert danger">
-            <?php
-                 echo $_SESSION['messages'];
-                 unset($_SESSION['messages']);
-            ?>
+          <?php if ($flashMessage->hasMessage()): ?>
+          <p><?= $flashMessage->getMessage() ?></p>
+          <?php endif; ?>
+
+          <?php if ($flashMessage->hasErrors()): ?>
+            <ul>
+              <?php foreach ($flashMessage->all() as $error): ?>
+                <li><?= $error[0] ?></li>
+              <?php endforeach; ?>
+            </ul>
+          <?php endif; ?>
         </div>
         <?php endif; ?>
 
-        <?php if (isset($_SESSION['success'])): ?>
+        <?php if ($flashMessage->hasSuccessMessage()): ?>
         <div class="alert success">
-            <?php
-                 echo $_SESSION['success'];
-                 unset($_SESSION['success']);
-            ?>
+          <?= $flashMessage->getSuccessMessage() ?>
         </div>
         <?php endif; ?>
     </div>
 
     <div class="card">
-        <p>¿Tienes una cuenta? <a href="login.php">Iniciar Sesión</a></p>
+        <p>¿Tienes una cuenta? <a href="<?= base_url(); ?>auth/login">Entrar</a> </p>
     </div>
 </div>
 
