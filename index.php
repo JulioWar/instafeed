@@ -1,58 +1,12 @@
 <?php
-include "views/layouts/header.php";
-include "views/layouts/base-footer.php";
+// Require composer autoloader
+require __DIR__ . '/vendor/autoload.php';
 
-get_header();
-?>
+// Create Router instance
+$router = new \Bramus\Router\Router();
 
-    <div id="explorer" class="container">
-        <h5>Explorar</h5>
+// Importando Rutas
+include_once(__DIR__.'/configs/routes.php');
 
-        <div class="grid">
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-        </div>
-    </div>
-<?php
-    get_base_footer();
-?>
+// Run it!
+$router->run();
