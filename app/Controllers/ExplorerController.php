@@ -4,8 +4,7 @@ namespace App\Controllers;
 class ExplorerController {
 
   public function home() {
-    echo "include";
-    // include(__DIR__. './../../views/index.php');
+	include(__DIR__. './../../views/index.php');
   }
 
 }

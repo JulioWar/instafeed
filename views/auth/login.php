@@ -1,21 +1,19 @@
 <?php
-include "views/layouts/base-header.php";
-include "views/layouts/base-footer.php";
-include_once "app/utils/helpers.php";
-include_once "app/Classes/FlashMessage.php";
+include __DIR__."/../layouts/base-header.php";
+include __DIR__."/../layouts/base-footer.php";
 
 
-$flashMessage = new FlashMessage();
+$flashMessage = new App\Classes\FlashMessage();
 
 
 get_base_header(
-    '<link rel="stylesheet" href="public/css/outside.css">'
+    '<link rel="stylesheet" href="'.base_url().'public/css/outside.css">'
 );
 ?>
 <div class="container">
     <div class="card">
         <span class="logo">
-            <img src="public/images/insta.png" alt="Instafeed picture">
+            <img src="<?= base_url(); ?>public/images/insta.png" alt="Instafeed picture">
         </span>
         <form action="<?= base_url(); ?>app/Controllers/auth/login.php" method="POST" >
             <input type="email"
@@ -44,7 +42,7 @@ get_base_header(
     </div>
 
     <div class="card">
-        <p>¿No tienes cuenta? <a href="registration.php">Registrate</a> </p>
+        <p>¿No tienes cuenta? <a href="<?= base_url(); ?>auth/registration">Registrate</a> </p>
     </div>
 </div>
 <?php

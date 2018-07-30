@@ -1,12 +1,12 @@
 <?php
-include "views/layouts/base-header.php";
-include "views/layouts/base-footer.php";
-include_once "app/Classes/FlashMessage.php";
-include_once "app/utils/helpers.php";
+include __DIR__."/../layouts/base-header.php";
+include __DIR__."/../layouts/base-footer.php";
 
-$flashMessage = new FlashMessage();
+$flashMessage = new App\Classes\FlashMessage();
 
-get_base_header('<link rel="stylesheet" href="'.base_url('public/css/outside.css').'">');
+get_base_header(
+  '<link rel="stylesheet" href="'.base_url('public/css/outside.css').'">'
+);
 ?>
 <div class="container">
     <div class="card">
@@ -14,7 +14,7 @@ get_base_header('<link rel="stylesheet" href="'.base_url('public/css/outside.css
             <img src="<?= base_url(); ?>public/images/insta.png" alt="Instafeed picture">
         </span>
         <p>Regístrate para ver fotos y vídeos de tus amigos.</p>
-        <form action="<?= base_url(); ?>app/Controllers/auth/registry.php" method="POST" novalidate>
+        <form action="<?= base_url(); ?>auth/register" method="POST" novalidate>
             <input type="text" class="form-input" name="username" value="<?= $flashMessage->getInput('username'); ?>" placeholder="nombre de usuario" required >
             <input type="text" class="form-input" name="name" value="<?= $flashMessage->getInput('name'); ?>" placeholder="nombre completo" required >
             <input type="email" class="form-input" name="email"  value="<?= $flashMessage->getInput('email'); ?>" placeholder="correo electronico" required >
@@ -46,7 +46,7 @@ get_base_header('<link rel="stylesheet" href="'.base_url('public/css/outside.css
     </div>
 
     <div class="card">
-        <p>¿Tienes una cuenta? <a href="<?= base_url(); ?>/login.php">Entrar</a> </p>
+        <p>¿Tienes una cuenta? <a href="<?= base_url(); ?>auth/login">Entrar</a> </p>
     </div>
 </div>
 

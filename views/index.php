@@ -9,48 +9,15 @@ get_header();
         <h5>Explorar</h5>
 
         <div class="grid">
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
+			<?php for($contador = 0; $contador < 24; $contador++): ?>
+            <article class="post" style="background-image: url(https://picsum.photos/<?= rand(500, 600); ?>/<?= rand(500, 600); ?>)">
                 <a href="" class="post-info">
                     <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
+                        <img src="<?= base_url(); ?>public/images/like.svg" alt="likes">
                     </span>
                 </a>
             </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
-            <article class="post" style="background-image: url(https://picsum.photos/500/600)">
-                <a href="" class="post-info">
-                    <span class="likes">
-                        <img src="public/images/like.svg" alt="likes">
-                    </span>
-                </a>
-            </article>
+			<?php endfor; ?>
         </div>
     </div>
 <?php
