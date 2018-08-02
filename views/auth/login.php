@@ -15,7 +15,7 @@ get_base_header(
         <span class="logo">
             <img src="<?= base_url(); ?>public/images/insta.png" alt="Instafeed picture">
         </span>
-        <form action="<?= base_url(); ?>app/Controllers/auth/login.php" method="POST" >
+        <form action="<?= base_url(); ?>auth/login" method="POST" >
             <input type="email"
                 class="form-input"
                  name="email"

@@ -2,11 +2,21 @@
 include "layouts/header.php";
 include "layouts/base-footer.php";
 
+$usuario = $_SESSION['user'];
+$posts = $usuario->posts()->get();
+
 get_header();
 ?>
 
     <div id="explorer" class="container">
         <h5>Explorar</h5>
+        <!-- <?= var_dump($_SESSION['user']); ?> -->
+        <?= $usuario->id .' = '. $usuario->name; ?>
+        <form action="<?= base_url() ?>user/logout" method="post">
+          <button type="submit" class="btn btn-default">
+            Cerrar Sesion
+          </button>
+        </form>
 
         <div class="grid">
 			<?php for($contador = 0; $contador < 24; $contador++): ?>

@@ -9,6 +9,48 @@ class AuthController {
     include_once(__DIR__.'./../../views/auth/login.php');
   }
 
+  public function login() {
+    $flashMessage = new FlashMessage();
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if (!empty($email) && !empty($password)) {
+
+      if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) {
+        $flashMessage->addError('email','El Correo debe ser valido.');
+        $flashMessage->save();
+        header('Location: '.base_url().'auth/login');
+        exit();
+      }
+
+      $password = md5($password);
+
+      $user = \App\Models\User::query()
+              ->where('email','=', $email)
+              ->where('password','=', $password)
+              ->first();
+
+      if ($user !== NULL) {
+        session_start();
+        $_SESSION['user'] = $user;
+        header('Location: '.base_url().'user/explore');
+        exit();
+      } else {
+        $flashMessage->setMessage('Las Credenciales son incorrectas.');
+      }
+
+    } else {
+      $flashMessage->setMessage('Verifique que todos los campos esten llenos.');
+    }
+
+    if ($flashMessage->hasMessage() || $flashMessage->hasErrors()) {
+      $flashMessage->save();
+      header('Location: '.base_url().'auth/login');
+      exit();
+    }
+  }
+
   public function getRegistration() {
     include_once(__DIR__.'./../../views/auth/registration.php');
   }
@@ -95,5 +137,18 @@ class AuthController {
     exit();
 
   }
+
+
+  public function logout() {
+    if(!session_id()) {
+      session_start();
+    }
+
+    unset($_SESSION['user']);
+
+    header('location: '.base_url().'auth/login');
+    exit();
+  }
+
 
 }
